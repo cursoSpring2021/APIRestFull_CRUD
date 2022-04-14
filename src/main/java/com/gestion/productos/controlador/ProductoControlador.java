@@ -37,8 +37,10 @@ public class ProductoControlador {
     @PutMapping("/productos/{id}")
     public ResponseEntity<?> actualizarProducto(@RequestBody Producto producto, @PathVariable Integer id) {
         try {
-            Producto productoExistente = productoServicio.obtenerProductoPorId(id);
-            productoServicio.guardarProductos(producto);
+            Producto productoActual = productoServicio.obtenerProductoPorId(id);
+            productoActual.setNombre(producto.getNombre());
+            productoActual.setPrecio(producto.getPrecio());
+            productoServicio.guardarProductos(productoActual);
             return new ResponseEntity<Producto>(producto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);
